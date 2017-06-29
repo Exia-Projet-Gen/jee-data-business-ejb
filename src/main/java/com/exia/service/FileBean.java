@@ -8,6 +8,7 @@ package com.exia.service;
 import com.exia.dao.iFileDAO;
 import com.exia.domain.File;
 import com.exia.domain.JAXFile;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,12 +58,18 @@ public class FileBean implements FileBeanRemote{
 
     @Override
     public List<JAXFile> getDecodedFiles() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<File> files = fileDAO.getAll();
+        transformFileToJsonObject(files.get(0));
+        
+        List<JAXFile> transformedFiles = new ArrayList<>();
+        files.forEach((file) -> {
+            transformedFiles.add(transformFileToJsonObject(file));
+        });
+        
+        return transformedFiles;
     }
-      
+         
     private void sendMessage(JAXFile decodedText) {
-        JAXBContext jaxbContext;
-     
         try {
   
             // encapsulate the XML Message
@@ -88,8 +95,30 @@ public class FileBean implements FileBeanRemote{
         file.setMatchPercent(matchPercent);
         file.setMailAddress(mailAddress);
         
+        System.out.println(file.getDecodedText());
+        
+        System.out.println(file.getMailAddress());
+        
+        System.out.println(file.getMatchPercent());
+        
         Boolean addedFile = fileDAO.save(file);
         
         return addedFile;
+    }
+    
+    // Parse a File OBJECT to a JAXWord which allow to send this object in xml
+    private JAXFile transformFileToJsonObject(File file) {       
+        try {
+            JAXFile transformedFile = new JAXFile();
+            transformedFile.setId(file.getId());
+            transformedFile.setDecodedText(file.getDecodedText());
+            transformedFile.setFileName(file.getFileName());
+            transformedFile.setKey(file.getKey());
+            transformedFile.setMailAddress(file.getMailAddress());
+            transformedFile.setMatchPercent(file.getMatchPercent());
+            return transformedFile;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

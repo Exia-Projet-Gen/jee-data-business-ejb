@@ -19,6 +19,8 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class DictionaryDAO implements iDictionaryDAO {
 
+    private static final long serialVersionUID = 6L;
+
     @PersistenceContext(unitName = "exiaPU")
     private EntityManager em;
 

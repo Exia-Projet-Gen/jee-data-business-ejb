@@ -6,11 +6,13 @@
 package com.exia.dao;
 
 import com.exia.domain.File;
+import java.util.List;
 
 /**
  *
  * @author hyaci
  */
 public interface iFileDAO {  
-    Boolean save(final File file);
+    Boolean save(File file);
+    List<File> getAll();
 }

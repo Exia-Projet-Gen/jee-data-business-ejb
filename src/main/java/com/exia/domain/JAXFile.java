@@ -8,6 +8,7 @@ package com.exia.domain;
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -21,6 +22,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class JAXFile implements Serializable {
     
     private static final long serialVersionUID = 3L;
+    
+    @XmlAttribute
+    private Long id;
     
     @XmlElement
     private String key;
@@ -36,6 +40,14 @@ public class JAXFile implements Serializable {
     
     @XmlElement
     private String mailAddress;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Double getMatchPercent() {
         return matchPercent;
